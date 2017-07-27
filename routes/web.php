@@ -34,6 +34,13 @@ Route::post('/imagecrop', 'UserController@imageCrop');
 Route::get('/imagecrop', 'UserController@index');
 
 
-Route::post('/comment', 'CommentController@postComment')->name('postComment');
-Route::get('/comment', 'CommentController@getComment');
+Route::group(["prefix"=>"comment"], function () {
+
+    Route::post('/', 'CommentController@postToAddComment')->name('postToAddComment');
+ 
+   	//Route::get('/', 'CommentController@getComment');
+
+   	Route::post('/delete/{id}', 'CommentController@postToDeleteComment')->name('postToDeleteComment');
+
+});
 
