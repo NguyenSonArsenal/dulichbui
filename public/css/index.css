@@ -1,0 +1,52 @@
+.avatar-owner {
+  float: left;
+  padding-right: 15px; }
+
+.container .btn-create-trip {
+  margin: 30px 0;
+  margin-left: 20px; }
+.container .main {
+  padding: 5px; }
+  .container .main .trip {
+    border: 1px solid #D0D1D5;
+    padding: 5px;
+    margin: 20px 0;
+    background: #fff; }
+    .container .main .trip .title .infor-trip .name-trip {
+      color: #365899;
+      font-size: 20px; }
+      .container .main .trip .title .infor-trip .name-trip:hover {
+        text-decoration: underline; }
+    .container .main .trip .content {
+      padding: 5px 0; }
+    .container .main .trip .cover {
+      padding: 5px 0 15px; }
+    .container .main .trip .action {
+      padding: 2px 0; }
+      .container .main .trip .action > a {
+        margin-right: 10px; }
+        .container .main .trip .action > a:hover {
+          text-decoration: underline; }
+    .container .main .trip .comments .content-cmt {
+      padding: 1px 0; }
+      .container .main .trip .comments .content-cmt .input-group {
+        margin-bottom: 0px; }
+        .container .main .trip .comments .content-cmt .input-group .action-reply {
+          border-top: none; }
+        .container .main .trip .comments .content-cmt .input-group .username-cmt {
+          color: #365899;
+          margin-right: 5px;
+          font-weight: bold; }
+          .container .main .trip .comments .content-cmt .input-group .username-cmt:hover {
+            text-decoration: underline; }
+      .container .main .trip .comments .content-cmt .content-sub-comment {
+        margin-left: 50px; }
+      .container .main .trip .comments .content-cmt .form-comment-reply {
+        margin-left: 50px;
+        margin-bottom: 10px; }
+    .container .main .trip .comments .form-comment {
+      padding: 5px 0; }
+      .container .main .trip .comments .form-comment .input-group {
+        margin-bottom: 0px; }
+
+/*# sourceMappingURL=index.css.map */

@@ -1,0 +1,89 @@
+.avatar-owner{
+	float:left;
+	padding-right: 15px;
+}
+
+.container{
+	.btn-create-trip{
+		margin: 30px 0;
+		margin-left: 20px;
+	}
+	.main{
+		padding: 5px;
+		.trip{
+			//border:1px solid red;
+			border:1px solid #D0D1D5;
+			padding: 5px;
+			margin:20px 0;
+			background: #fff;
+			.title{
+				
+				.infor-trip{
+					.name-trip{
+					    color: #365899;
+					    font-size: 20px;
+					    &:hover{
+					    	text-decoration: underline;
+					    }
+					}
+				}
+			}
+			.content{
+				padding:5px 0;
+			}
+			.cover{
+				padding:5px 0 15px;
+			}
+			.action{
+				padding:2px 0;
+				>a{
+					margin-right:10px;
+					&:hover{
+						text-decoration:underline;
+					}
+				}
+			}
+			.comments{
+				.content-cmt{
+					padding:1px 0;
+					.input-group{
+						margin-bottom: 0px;
+						.action-reply{
+							border-top:none;
+						}
+						.username-cmt{
+							color:#365899;
+							margin-right:5px;
+							font-weight: bold;
+							&:hover{
+								text-decoration:underline;
+							}
+						}
+					}
+					
+					.content-sub-comment{
+						//border:1px solid;
+						margin-left:50px;
+						.sub-comment{
+							
+						}	
+					}	
+					
+					
+					.form-comment-reply{
+						margin-left: 50px;
+	    				margin-bottom:10px;
+					}
+				}
+
+				.form-comment{
+					padding:5px 0;
+					.input-group{
+						margin-bottom:0px;
+					}
+				}
+			}
+			
+		}
+	}
+}
