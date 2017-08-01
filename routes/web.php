@@ -30,6 +30,8 @@ Route::post('/register', 'Auth\RegisterController@create')->name('post.register'
 
 Route::resource('users', 'UserController');
 
+Route::resource('trips', 'TripController');
+
 Route::post('/imagecrop', 'UserController@imageCrop');
 Route::get('/imagecrop', 'UserController@index');
 

@@ -25,7 +25,9 @@
     
     <div class="row">
         <div class="col-md-offset-2">
-            <button class="btn-create-trip btn btn-success col-md-9">Create new trip</button>
+            <a href="{{route('trips.create')}}">
+                <button class="btn-create-trip btn btn-success col-md-9">Create new trip</button>
+            </a>
         </div>
     </div>
 

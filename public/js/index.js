@@ -93,6 +93,7 @@ $('.link-show-comment').click(function(){
 });
 
 
+
 $(".text_comment").on("keydown",function search(e) {
 
     if(e.keyCode == 13) {
@@ -149,7 +150,6 @@ $(".text_comment").on("keydown",function search(e) {
                                     '</span>' +
                                 '</div>' +
                             '</form>' ;
-
 
 
                 $('.comment_area_'+trip_id).append(html); 

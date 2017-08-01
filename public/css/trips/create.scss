@@ -1,0 +1,30 @@
+.container_create_trip{
+	border:1px solid red;
+	.cover{
+		margin: 20px 0;
+		height: 100px;
+		border:1px solid;
+		>span{
+			position: relative;
+		    float: left;
+		    top: 50%;
+		    left: 50%;
+		    transform: translate(-50%, -50%);
+		    font-size: 30px;
+		}
+	}
+	.trip{
+		border:1px solid green;
+	}
+
+	.search{
+		border:1px solid;
+	}
+
+	#googleMap{
+		border:1px solid yellow;
+		height: 400px;
+		//height: 100%;
+		width: 100%;
+	}
+}

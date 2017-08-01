@@ -18,9 +18,12 @@
 
     <!-- Custom Theme Style -->
     <link href="{{asset('build/css/custom.min.css')}}" rel="stylesheet">
+    
 
+    
 
     @yield('libs_css')
+
     @yield('style_css')
 
 
@@ -73,8 +76,8 @@
                         <div class="menu_section">
                             <h3>General</h3>
                             <ul class="nav side-menu">
-                                <li><a><i class="fa fa-home"></i> Home</a></li>
-                                <li><a><i class="fa fa-home"></i> All trips</a></li>
+                                <li><a href="{{route('index')}}"><i class="fa fa-home"></i> Home</a></li>
+                                <li><a href="{{route('trips.create')}}"><i class="fa fa-home"></i> Create trip</a></li>
                                
                                     <li> @if(Auth::user())
                                         <a href="{{route('users.edit',$user->id)}}" title="setting profile user"><i class="fa fa-edit"></i> Profile</a>
@@ -119,7 +122,7 @@
                                         <span class=" fa fa-angle-down"></span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                        <li><a href="javascript:;"> Profile</a></li>
+                                        <li><a href="{{route('users.edit',$user->id)}}"> Profile</a></li>
                                         <li><a href="{{route('logout')}}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                                     </ul>
                                 </li>
@@ -218,6 +221,8 @@
 
     <!-- Custom Theme Scripts -->
     <script type="text/javascript" src="{{asset('build/js/custom.js')}}"></script>
+
+    
 
     @yield('libs_js') 
 
