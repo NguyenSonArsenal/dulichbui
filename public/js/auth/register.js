@@ -73,7 +73,21 @@ $(document).ready(function(){
                             message: 'The date of birth is not valid'
                         }
                     }
-                }
+                },
+                time_start: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The time_start is required'
+                        },
+                    }
+                },
+                time_end: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The time_end is required'
+                        },
+                    }
+                },
             }
         });
     });

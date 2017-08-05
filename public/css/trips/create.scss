@@ -1,5 +1,10 @@
+.pushRight15px{
+	margin-right:11px;
+}
+
 .container_create_trip{
-	border:1px solid red;
+	border:1px solid red; 
+
 	.cover{
 		margin: 20px 0;
 		height: 100px;
@@ -13,8 +18,16 @@
 		    font-size: 30px;
 		}
 	}
+	.input-time{
+		border:1px solid;
+		padding-bottom: 20px;
+		.margin-right{
+			margin-right:50px;
+		}
+		//margin:0 auto;
+	}
 	.trip{
-		border:1px solid green;
+		//border:1px solid green;
 	}
 
 	.search{
@@ -22,9 +35,8 @@
 	}
 
 	#googleMap{
-		border:1px solid yellow;
+		//border:1px solid yellow;
 		height: 400px;
-		//height: 100%;
 		width: 100%;
 	}
 }

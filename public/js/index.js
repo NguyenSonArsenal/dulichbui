@@ -51,6 +51,7 @@ function deleteComment(element)
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         data: {"comment_id":comment_id},
+
         success:function(res){
 
             var status = res.status;

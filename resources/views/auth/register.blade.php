@@ -2,9 +2,6 @@
 
 @section('libs_css')
 
-
-
-
 <!-- FormValidation CSS file -->
 <link rel="stylesheet" href="{{asset('vendors/formvalidation/css/formValidation.min.css')}}">
 

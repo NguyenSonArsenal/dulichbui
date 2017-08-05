@@ -1,3 +1,6 @@
+.pushRight15px {
+  margin-right: 11px; }
+
 .container_create_trip {
   border: 1px solid red; }
   .container_create_trip .cover {
@@ -11,12 +14,14 @@
       left: 50%;
       transform: translate(-50%, -50%);
       font-size: 30px; }
-  .container_create_trip .trip {
-    border: 1px solid green; }
+  .container_create_trip .input-time {
+    border: 1px solid;
+    padding-bottom: 20px; }
+    .container_create_trip .input-time .margin-right {
+      margin-right: 50px; }
   .container_create_trip .search {
     border: 1px solid; }
   .container_create_trip #googleMap {
-    border: 1px solid yellow;
     height: 400px;
     width: 100%; }
 
