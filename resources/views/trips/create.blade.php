@@ -19,6 +19,7 @@
 	<div class="container_create_trip">
 
 		<h1 class="text-center">This is page create trip</h1>
+		<input type="hidden" name="lat" class="lat">
 		
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
@@ -35,11 +36,18 @@
 					<table class="table hover table-bordered tbl_trip">
 						<thead>
 						    <tr>
-						      	<th class="text-center" >Id</th>
+						      	<th class="text-center" >Id
+						      	</th>
 						      	<th class="text-center">Address</th>
-						      	<th class="text-center">Time</th>
-						      	<th class="text-center">Vehicle</th>
-						      	<th class="text-center">Activities</th>
+						      	<th class="text-center">Time
+									<div class="text-danger error_trip_time"></div>  
+						      	</th>
+						      	<th class="text-center">Vehicle
+									<div class="text-danger error_vehicle"></div> 
+						      	</th>
+						      	<th class="text-center">Activities
+									<div class="text-danger error_activities"></div> 
+						      	</th>
 						      	<th colspan="2" class="text-center" >Note</th>
 						    </tr>
 						</thead>

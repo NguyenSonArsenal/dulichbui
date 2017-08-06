@@ -36,5 +36,13 @@ class Trip extends Model
     }
 
 
+    /**
+     * Get the locations for the trip.
+     */
+    public function locations()
+    {
+        return $this->hasMany('App\Location');
+    }
+
 	
 }

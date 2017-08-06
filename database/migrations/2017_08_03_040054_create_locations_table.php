@@ -18,7 +18,7 @@ class CreateLocationsTable extends Migration
             $table->integer('trip_id');
             $table->double('lat');
             $table->double('lng');
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->timestamp('time');
             $table->string('vehicle');
             $table->string('activities');

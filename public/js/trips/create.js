@@ -1,12 +1,14 @@
 "use strict";
 
 
+var user_id = $('#user_id').val();
+
 $('#datetimepicker-time-start-trip').datetimepicker({
-    format: 'DD-MM-YYYY HH:mm',
+    format: 'YYYY-MM-DD HH:mm',
 });
 
 $('#datetimepicker-time-end-trip').datetimepicker({
-    format: 'DD-MM-YYYY HH:mm',
+    format: 'YYYY-MM-DD HH:mm',
 });
 
 
@@ -46,7 +48,7 @@ function initMap() {
 
 	var haNoi, marker, map, directionsService, directionsDisplay, count_markers;
 
-	var place_id, position, formattedAddress;
+	var place_id, position, formattedAddress, lat, lng;
 
 	directionsService = new google.maps.DirectionsService;//=1
     directionsDisplay = new google.maps.DirectionsRenderer;
@@ -94,6 +96,9 @@ function initMap() {
             formattedAddress = place.name;
             position = place.geometry.location;
 
+            lat = position.lat();
+            lng = position.lng()
+
             marker = new google.maps.Marker({
                 title: place.name,
                 //map: map,
@@ -102,7 +107,7 @@ function initMap() {
 
             markers.push(marker);
 
-            console.log(markers[count_markers]);
+            //console.log(markers[count_markers]);
 
             var html = 
                     '<tr>'+
@@ -110,13 +115,18 @@ function initMap() {
                         '<td class="text-center">'+formattedAddress+'</td>'+
                         '<td class="text-center">'+
                             '<input type="text" name="time" value=""  id="datetimepicker_'+count_markers+'"  class="form-control time_'+count_markers+'" placeholder="dd/mm/yyyy HH:mm">'+
+                            '<div class="show_error text-danger error_time_'+count_markers+'"></div>'+
                         '</td>'+
                         '<td class="text-center">'+
                             '<input type="text" name="vehicle" value="" class="form-control vehicle_'+count_markers+'" placeholder="Bus, car, moto...">'+
+                            '<div class="show_error text-danger error_vehicle_'+count_markers+'"></div>'+
                         '</td>'+
                         '<td class="text-center">'+
                             '<input type="text" name="activities" value="" class="form-control activities_'+count_markers+'" placeholder="eat, walking, stay...">'+
+                            '<div class="show_error text-danger error_activities_'+count_markers+'"></div>'+
                         '</td>'+
+                        '<input type="hidden" name="lat" value="'+lat+'" class="lat_'+count_markers+'" >'+
+                        '<input type="hidden" name="lng" value="'+lng+'" class="lng_'+count_markers+'" >'+
                         '<td class="text-center cancel_'+count_markers+'"><a href="javascript:;">Cancel</a></td>'+
                         '<td class="text-center"><a href="javascript:;">Edit</a></td>'+
                     '</tr>';
@@ -124,7 +134,7 @@ function initMap() {
         	$('.tbody').append(html);
 
             $('#datetimepicker_'+count_markers).datetimepicker({
-                format: 'DD-MM-YYYY HH:mm',
+                format: 'YYYY-MM-DD HH:mm',
             });
 
             if (place.geometry.viewport) {
@@ -229,40 +239,79 @@ function displayRoute(directionsService, directionsDisplay, waypts, map)
 
 // Process logic
 
+
+function checkRequired(string, name_filed, class_name)
+{
+    if (string.length == 0) {
+        $('.'+class_name).html('The '+name_filed+' is required');
+    } else {
+        $('.'+class_name).html(' ');
+    }
+}
+
+
+
+function checkIputAjax(array)
+{   
+
+    var i, length;
+    length = array.length;
+    for(i=0; i<length; i++){
+        if(array[i].length == 0) {
+            return 'no';
+        } else {
+            return 'yes';
+        }
+    }
+}
+
+
 $('.btn-create-trip').click(function(){
 
-    var count, i, data, trip_name, time_start, time_end ;    
+    var count, i, data, trip_name, time_start, time_end ; 
+
+    var time = [], vehicle = [], activities = [], lat = [], lng = [];   
 
     count = markers.length;
 
-    trip_name = $("#registrationTripForm input[name='name']").val();
+
+    trip_name  = $("#registrationTripForm input[name='name']").val();
     time_start = $("#registrationTripForm input[name='time_start']").val();
-    time_end = $("#registrationTripForm input[name='time_end']").val();
+    time_end   = $("#registrationTripForm input[name='time_end']").val();
 
 
-    if(trip_name.length == 0) {
-        $('.error_trip').html('The trip_name is required');
-    } else {
-        $('.error_trip').html('');
+    checkRequired(trip_name,'trip_name', 'error_trip');
+    checkRequired(time_start, 'time_start', 'error_time_start');
+    checkRequired(time_end, 'time_end', 'error_time_end');
+
+
+    for (i=0; i<count; i++) {
+
+        time[i] = $('.time_'+i).val();
+        checkRequired(time[i],'filed', 'error_time_'+i);
+
+        vehicle[i] = $('.vehicle_'+i).val();  
+        checkRequired(vehicle[i],'filed', 'error_vehicle_'+i);
+
+        activities[i] = $('.activities_'+i).val();
+        checkRequired(activities[i],'filed', 'error_activities_'+i);  
+
+        lat[i] = $('.lat_'+i).val();
+        lng[i] = $('.lng_'+i).val();
+   
     }
 
-    if(time_start.length == 0) {
-        $('.error_time_start').html('The time_start is required');
-    } else {
-        $('.error_time_start').html('');
+    if(trip_name.length > 0 && time_start.length > 0 && time_end.length > 0 && count == 0){
+        alert('Please enter some location you want to visit !!!');
     }
 
-    if(time_end == 0) {
-        $('.error_time_end').html('The time_end is required');
-    } else {
-        $('.error_time_end').html('');
-    }
+    if(trip_name.length > 0 && time_start.length > 0 && time_end.length > 0 
+        && checkIputAjax(time) =='yes' && checkIputAjax(vehicle) == 'yes' && checkIputAjax(activities) == 'yes'  ) {
 
-    if(trip_name.length > 0 && time_start.length > 0 && time_end.length > 0) {
+        //console.log('passed all input to send ajax !!!');
 
-        data = {"trip_name":trip_name, 'time_start':time_start , 'time_end':time_end};
-
-        console.log('passed !!!');
+        data = {"user_id":user_id ,"trip_name":trip_name, 'time_start':time_start , 'time_end':time_end, 'time':time, 
+                'vehicle':vehicle, 'activities':activities, 'lat':lat, 'lng':lng};
 
         $.ajax({
             type:"post",
@@ -275,7 +324,7 @@ $('.btn-create-trip').click(function(){
 
             success:function(res){
 
-                console.log(typeof(res));
+                //console.log(typeof(res)); // obj
 
                 if(res['success']) {
 
@@ -290,6 +339,12 @@ $('.btn-create-trip').click(function(){
                         $('.error_time_start').html(res['errors'].time_start);
                         
                         $('.error_time_end').html(res['errors'].time_end);
+
+                        $('.error_trip_time').html('Something time wrong<i class="fa fa-close" style="padding-left: 20px"></i>');
+
+                        $('.error_vehicle').html('Something wrong<i class="fa fa-close" style="padding-left: 20px"></i>');
+
+                        $('.error_activities').html('Something wrong<i class="fa fa-close" style="padding-left: 20px"></i>');
                     }
 
                 }
@@ -306,15 +361,7 @@ $('.btn-create-trip').click(function(){
         //end ajax
     } 
 
-    // for (i=0; i<count; i++) {
-    //     console.log($('.time_'+i).val());
-    //     console.log($('.vehicle_'+i).val());
-    //     console.log($('.activities_'+i).val());
-    // }
-
-    
-
-    
+   
 });
 
 

@@ -35,6 +35,7 @@
         $user = Auth::user();
         $avatar = $user->avatar;
     @endphp
+    <input type="hidden" name="user_id" id="user_id" value="{{$user->id}}">
 @endif
 
 
