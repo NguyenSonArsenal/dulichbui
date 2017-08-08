@@ -49,5 +49,14 @@ class User extends Authenticatable
         return $this->hasMany('App\Trip');
     }
 
+    /**
+     * Get the joins for trip.
+     */
+    public function joins()
+    {
+        return $this->hasMany('App\Join');
+    }
+
+
 
 }

@@ -12,7 +12,7 @@
 @endsection
 
 @section('style_css')
-   <link rel="stylesheet" href="{{asset('css/users/main.css')}}">
+   <link rel="stylesheet" href="{{asset('css/crop-image/crop-image.css')}}">
 @endsection
 
 @section('content')
@@ -28,6 +28,29 @@
     <div class="avatar-view" title="Change the avatar">
         <img src="{{asset($avatar)}}" height="98%" alt="Avatar">
     </div>
+
+    <div class="row">
+    
+        <div class="col-md-2">
+            <div class="left">
+                Left
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="main">
+                Main                
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="right">
+                Right
+            </div>
+        </div>
+
+    </div>
+
 
     <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-lg">
@@ -99,12 +122,10 @@
 
 @endsection
 
-
-
 @section('script_js')
     <script type="text/javascript" src="{{asset('js/auth/register.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/users/edit.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/users/main.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/users/index.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/crop-image/crop-image.js')}}"></script>
 @endsection
 
 

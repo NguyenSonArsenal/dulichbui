@@ -1,7 +1,3 @@
-// $('.xxx').click(function(){
-//     alert('xxx');
-// });
-
 $uploadCrop = $('#upload-demo').croppie({
     enableExif: true,
     viewport: {

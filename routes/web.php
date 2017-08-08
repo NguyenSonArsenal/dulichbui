@@ -21,19 +21,26 @@ Route::get('/login', function () {
 
 
 
+// Auth user
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
-
-
 Route::get('/register', 'Auth\RegisterController@showFormRegister')->name('register');
 Route::post('/register', 'Auth\RegisterController@create')->name('post.register');
 
 
+//User
 Route::resource('users', 'UserController');
 
-Route::resource('trips', 'TripController');
 
+// Trip
+Route::resource('trips', 'TripController');
+Route::post('trips/update-cover','TripController@updateCover')->name('postToUpdateCoverTrip');
+Route::post('trips/join-trip','TripController@joinTrip')->name('postToJoinTrip');
+
+
+// Update avatar user
 Route::post('/imagecrop', 'UserController@imageCrop');
 Route::get('/imagecrop', 'UserController@index');
+
 
 
 Route::group(["prefix"=>"comment"], function () {

@@ -27,6 +27,23 @@ class Trip extends Model
     }
 
 
+     /**
+     * Get the joins for trip.
+     */
+    public function joins()
+    {
+        return $this->hasMany('App\Join');
+    }
+
+     /**
+     * Get the follows for trip.
+     */
+    public function follows()
+    {
+        return $this->hasMany('App\Follow');
+    }
+
+
     /**
      * The user that belong to the trip.
      */
@@ -43,6 +60,10 @@ class Trip extends Model
     {
         return $this->hasMany('App\Location');
     }
+
+    
+
+
 
 	
 }

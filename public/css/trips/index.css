@@ -1,0 +1,28 @@
+.image {
+  float: none;
+}
+
+#menu1 {
+  width: 30%;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.main #crop-avatar .avatar-view {
+  margin: 0;
+  width: 100%;
+  background: aliceblue;
+}
+.main .attend-group {
+  padding: 20px 0;
+}
+.main .attend-group .style-btn {
+  border-radius: 3px;
+  background: #ccc;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+/*# sourceMappingURL=index.css.map */

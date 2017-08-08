@@ -20,8 +20,6 @@
     <link href="{{asset('build/css/custom.min.css')}}" rel="stylesheet">
     
 
-    
-
     @yield('libs_css')
 
     @yield('style_css')
@@ -29,15 +27,19 @@
 
   </head>
 
-
 @if(Auth::user()) 
     @php
         $user = Auth::user();
         $avatar = $user->avatar;
     @endphp
-    <input type="hidden" name="user_id" id="user_id" value="{{$user->id}}">
+    <input type="hidden" name="user_id"  id="user_id"  value="{{$user->id}}">
+    <input type="hidden" name="avatar"   id="avatar"   value="{{$user->avatar}}">
+    <input type="hidden" name="username" id="username" value="{{$user->name}}">
+@else
+    @php
+        $avatar = 'images/avatar/default-avatar.png';
+    @endphp
 @endif
-
 
 <body class="nav-md">
 
@@ -78,12 +80,10 @@
                             <h3>General</h3>
                             <ul class="nav side-menu">
                                 <li><a href="{{route('index')}}"><i class="fa fa-home"></i> Home</a></li>
-                                <li><a href="{{route('trips.create')}}"><i class="fa fa-home"></i> Create trip</a></li>
-                               
-                                    <li> @if(Auth::user())
-                                        <a href="{{route('users.edit',$user->id)}}" title="setting profile user"><i class="fa fa-edit"></i> Profile</a>
-                                    
-                                @endif</li>
+                                @if(Auth::user())
+                                    <li><a href="{{route('trips.create')}}"><i class="fa fa-home"></i> Create trip</a></li>
+                                    <li><a href="{{route('users.show',$user->id)}}" title="setting profile user"><i class="fa fa-edit"></i> Profile</a></li>
+                                @endif
                                 <li><a><i class="fa fa-desktop"></i>Requests</a></li>
                                 <li><a><i class="fa fa-table"></i> Tests <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
@@ -123,7 +123,7 @@
                                         <span class=" fa fa-angle-down"></span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                        <li><a href="{{route('users.edit',$user->id)}}"> Profile</a></li>
+                                        <li><a href="{{route('users.show',$user->id)}}"> Profile</a></li>
                                         <li><a href="{{route('logout')}}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                                     </ul>
                                 </li>
@@ -198,6 +198,7 @@
             <!-- page content -->
             <div class="right_col" role="main">
                 @yield('content') 
+
             </div>
             <!-- /page content -->
 

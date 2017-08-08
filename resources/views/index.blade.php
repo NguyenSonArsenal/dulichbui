@@ -12,6 +12,7 @@
         @if(Auth::user()) 
             @php
                 $user = Auth::user();
+                $ủe_id = $user->id;
                 $avatar = $user->avatar;
             @endphp
             <input type="hidden" name="user_id" id="user_id" value="{{$user->id}}">
@@ -22,14 +23,15 @@
                 $avatar = 'images/avatar/default-avatar.png';
             @endphp
         @endif
-    
-    <div class="row">
-        <div class="col-md-offset-2">
-            <a href="{{route('trips.create')}}">
-                <button class="btn-create-trip btn btn-success col-md-9">Create new trip</button>
-            </a>
+    @if(isset($user_id))
+        <div class="row">
+            <div class="col-md-offset-2">
+                <a href="{{route('trips.create')}}">
+                    <button class="btn-create-trip btn btn-success col-md-9">Create new trip</button>
+                </a>
+            </div>
         </div>
-    </div>
+    @endif
 
     <div class="row">
         <div class="col-md-2">
@@ -47,9 +49,9 @@
                                 <img src="{{$trip->user->avatar}}" height="50px">
                             </div>
                             <div class="infor-trip">
-                                <a href="javascript:;" class="name-trip">{{$trip->user->name}}</a>
+                                <a href="{{route('users.show', $trip->user->id)}}" class="name-trip">{{$trip->user->name}}</a>
                                 <span>-></span>
-                                <a href="javascript:;" class="name-trip">{{$trip->name}}</a>
+                                <a href="{{route('trips.show',$trip->id)}}" class="name-trip">{{$trip->name}}</a>
                                 <p>10 minutes ago</p>
                             </div>
                         </div>

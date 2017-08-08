@@ -47,7 +47,19 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+
+        $user = User::find($id);
+        
+        if($user){
+
+            return view('users.index', compact('user'));
+
+        } else {
+
+            return view('page_404');
+
+        }
+        
     }
 
     /**
@@ -58,9 +70,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
         
-        return view('users.edit', compact('user'));
     }
 
     /**
