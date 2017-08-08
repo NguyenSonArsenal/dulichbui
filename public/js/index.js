@@ -35,7 +35,11 @@ function deleteComment(element)
     var sub_comment_class_name = $(element).parent().parent().parent().attr('class');
     sub_comment_class_name = xiLiClassName(sub_comment_class_name);
 
+    alert(sub_comment_class_name);
+
     comment_id = xuliId(sub_comment_class_name);
+
+    alert(comment_id);
 
     if (confirm("Are you sure?")) {
         $('.'+sub_comment_class_name+'').empty();
@@ -82,8 +86,6 @@ function showFormSubComment(element)
 
 
 // process parent comment
-
-$('.comments').hide();
 
 $('.link-show-comment').click(function(){
     var trip_id = $(this).parent().parent().attr('id');
@@ -154,6 +156,13 @@ $(".text_comment").on("keydown",function search(e) {
 
 
                 $('.comment_area_'+trip_id).append(html); 
+
+                $('.link_delete_comment').click(function(){
+
+                    deleteComment(this);
+
+                });
+
 
                 //console.log(html);
 

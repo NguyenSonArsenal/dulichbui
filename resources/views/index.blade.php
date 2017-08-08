@@ -71,7 +71,7 @@
                             </div>
                         @endif
 
-                        <div class="comments_{{$trip->id}} comments">
+                        <div class="comments_{{$trip->id}} comments" style="display: none;">
 
                             <tag class='comment_area_{{$trip->id}}'>
 

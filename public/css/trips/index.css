@@ -1,9 +1,19 @@
+.ul.msg_list li a .image img {
+  width: 30%;
+}
+
 .image {
   float: none;
 }
 
 #menu1 {
-  width: 30%;
+  width: 50%;
+}
+#menu1 .li-request-cancel-accept .btn-accept-cancel {
+  display: inline-flex;
+}
+#menu1 .li-request-cancel-accept .btn-accept-cancel > form {
+  display: inline;
 }
 
 a:hover {

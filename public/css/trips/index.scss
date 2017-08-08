@@ -1,9 +1,21 @@
+.ul.msg_list li a .image img{width:30%}
 .image{
 	float: none;
+	// .img{
+	// 	width:30%;
+	// }
 }
 
 #menu1{
-	width:30%;
+	width:50%;
+	.li-request-cancel-accept{
+		.btn-accept-cancel{
+			display:inline-flex;
+			>form{
+				display:inline;
+			}
+		}
+	}
 }
 
 
@@ -14,7 +26,6 @@ a{
 }
 
 .main{
-	//border:1px solid red;
 	#crop-avatar{
 		.avatar-view{
 			margin: 0;
@@ -31,4 +42,5 @@ a{
 			margin-right: 10px;
 		}
 	}
+
 }

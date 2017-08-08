@@ -36,6 +36,8 @@ Route::resource('trips', 'TripController');
 Route::post('trips/update-cover','TripController@updateCover')->name('postToUpdateCoverTrip');
 Route::post('trips/join-trip','TripController@joinTrip')->name('postToJoinTrip');
 
+Route::post('trips/cancel-or-accept-user-join-trip','TripController@acceptOrCancelUserJoinTrip')->name('postToCancelOrAcceptUserJoinTrip');
+
 
 // Update avatar user
 Route::post('/imagecrop', 'UserController@imageCrop');

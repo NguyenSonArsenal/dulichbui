@@ -9,6 +9,7 @@ use App\Location;
 use App\Join;
 use App\User;
 use App\Follow;
+use App\Comment;
 use Illuminate\Support\Facades\Auth;
 // use Illuminate\Contracts\Validation\Validator;
 //use Request;
@@ -126,9 +127,6 @@ class TripController extends Controller
 
     }
 
-
-
-
     /**
      * Display the specified resource.
      *
@@ -140,10 +138,11 @@ class TripController extends Controller
         $count_join_trip = 0;  
         $user_id = Auth::id(); 
 
-        $permission = getPermission($user_id, $id);
+        //get comment parent for a trip
+        $parent_comments = $this->getParentComment($id);
+        $sub_comments = $this->getSubComment($id);
 
-        
-
+        $permission = $this->getPermission($user_id, $id);
 
         //$trip = Trip::find($id); // Obj
 
@@ -161,7 +160,7 @@ class TripController extends Controller
 
             $trip = $trip[0];
 
-            // count user join trip
+            // count user who accepted for join trip
             $join_trips = Join::with('trip')->where('trip_id',$id)->where('status',2)->get(); //collection
             $count_join_trip = $join_trips->count();
 
@@ -169,12 +168,12 @@ class TripController extends Controller
             $user_id_owner = $trip->user_id;
             $user_name_owner = $trip->user->name;
 
-            $count_status_waitting = getRequestStatusWaitting($user_id_owner, $id);
-            $users_request_waitting = getUserRequestWaitting($user_id_owner, $id);
+            $count_status_waitting = $this->getRequestStatusWaitting($user_id_owner, $id);
+            $users_request_waitting = $this->getUserRequestWaitting($user_id_owner, $id);
 
 
            return view('trips.index', compact('trip', 'count_join_trip', 'user_name_owner', 'permission', 
-            'count_status_waitting', 'users_request_waitting'));
+            'count_status_waitting', 'users_request_waitting', 'parent_comments', 'sub_comments'));
         
         } else {
 
@@ -218,6 +217,8 @@ class TripController extends Controller
         //
     }
 
+    
+
     function joinTrip(Request $request)
     {
         $data = $request->all();
@@ -244,6 +245,8 @@ class TripController extends Controller
 
             $join->save();
             $follow->save();
+            //dd($join->id);
+            
 
             if($join->id && $follow->id){
                 return json_encode([
@@ -263,74 +266,157 @@ class TripController extends Controller
         } else if ($status == 'request-cancel-watting-join-trip') {
             
             echo 'server getted request cancel watting join trip';
+        }
+    }
 
+    function getPermission($user_id, $trip_id)
+    {
 
+        // echo $user_id;
+        // echo $trip_id;
 
+        if(!Auth::id()) {
+            return 'guess';
         }
 
+        $trip = Trip::find($trip_id);
+
+        if (isset($trip)) {
+            if($user_id==$trip->user_id)
+                return 'owner';
+        }
+
+        $status = Join::where('user_id',$user_id)->where('trip_id', $trip_id)->pluck('status')->last(); 
+
+        //dd($status);
+
+        if($status){
+
+             if($status == 1){
+
+                return 'waitting';
+
+            }else if($status == 2){
+
+                return 'joined';
+
+            } else if($status == 3) {
+
+                return 'user';
+
+            }
+        } else {
+
+            return 'user';
+        }
+    }
+
+
+    function getRequestStatusWaitting($user_id, $trip_id) 
+    {
         
+        $count_status_waitting = Join::where('trip_id',$trip_id)->where('status','1')->count();
+        
+        return $count_status_waitting;
 
     }
-}
 
+    function getUserRequestWaitting($user_id, $trip_id) 
+    {
 
-function getPermission($user_id, $trip_id)
-{
+        //collection
+        $users_request_waitting = Join::where('trip_id',$trip_id)->where('status','1')->pluck('user_id');
 
-    if(!Auth::id()) {
-        return 'guess';
+        if($users_request_waitting->count() > 0) {
+
+                foreach ($users_request_waitting as $key => $value) {
+                    
+                $user[$key] = User::find($value);
+               
+            }
+
+            return $user;
+        }
     }
 
-    $trip = Trip::find($trip_id);
+    public function acceptOrCancelUserJoinTrip(Request $request)
+    {
+        
+        $data = $request->all();
 
-    if (isset($trip)) {
-        if($user_id==$trip->user_id)
-            return 'owner';
-    }
+        $status = isset($data['status']) ? $data['status'] : '';
+        $user_id = isset($data['user_id']) ? $data['user_id'] : '';
+        $trip_id = isset($data['trip_id']) ? $data['trip_id'] : '';
 
-    $status = Join::where('user_id',$user_id)->where('trip_id', $trip_id)->pluck('status')->first(); 
+        $join_id = Join::where('user_id',$user_id)->where('trip_id', $trip_id)->pluck('id')->first(); 
 
-    if($status){
+        $join = Join::find($join_id);
 
-         if($status == 1){
+        if($status == 'request-accept-user-join-trip') {
 
-            return 'waitting';
+            $join->status  = 2;
+            $join->save();
 
-        }else if($status == 2){
+            return json_encode([
+                'success' => 'Accepted request user join for trip'
+            ]);
 
-            return 'joined';
+        } else if($status == 'request-cancel-user-join-trip') {
+
+            $join->status  = 3;
+            $join->save();
+
+            return json_encode([
+                'success' => 'Canceled request user join for trip'
+            ]);
 
         }
-    } else {
 
-        return 'user';
     }
-}
 
 
-function getRequestStatusWaitting($user_id, $trip_id) {
-    
-    $count_status_waitting = Join::where('trip_id',$trip_id)->where('status','1')->count();
-    
-    return $count_status_waitting;
 
-}
+    //Comment process
+    public function getParentComment($trip_id) 
+    {
+        $parent_comments = Comment::with('user')->where('trip_id', $trip_id)->where('parent_cmt_id', 0)->get();
 
-function getUserRequestWaitting($user_id, $trip_id) {
+        return $parent_comments;
+    }
 
-    //collection
-    $users_request_waitting = Join::where('trip_id',$trip_id)->where('status','1')->pluck('user_id');
 
-    if($users_request_waitting->count() > 0) {
+    // get sub comment of parent comment
+    public function getSubComment($trip_id)
+    {
 
-            foreach ($users_request_waitting as $key => $value) {
-                
-            $user[$key] = User::find($value);
-           
+        $parents_cmt_id = $this->getParentComment($trip_id); // Collection
+
+        $comments = Comment::with('user','trip')->get();
+
+         // get parent comment 
+        foreach ($parents_cmt_id as $i => $parents) {
+
+            $parent_comments[$i] = $parents->id;
+
         }
 
-        return $user;
+        // get sub comment of parent comment
+
+        foreach ($parent_comments as $i => $parent) {
+
+            $sub_comments[$parent] =  Comment::with('user','trip')->where('parent_cmt_id' , $parent)->get();
+
+        }
+
+        return $sub_comments;
+
     }
 
-    
 }
+
+//}
+//end class
+
+
+
+

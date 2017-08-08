@@ -86,10 +86,11 @@ $('.join-trip').click(function(){
         },
         data: data,
         success: function (res) {
-            if(res['success']) {
-                console.log(res['success']);
-                location.reload();
-            }
+            location.reload();
+            // if(res['success']) {
+            //     console.log(res['success']);
+                
+            // }
         },
         error: function( req, status, err ) {
             console.log( 'Error: ' + err );
@@ -101,21 +102,82 @@ $('.join-trip').click(function(){
 
 $('.exit-trip').click(function(){
 
-    console.log('clicked to exit trip');
+    //console.log('clicked to exit trip');
+
+    //console.log('User_id: ' + user_id);
+    //console.log('Trip_id: ' + trip_id);
+    if(confirm("Are you sure?")){
+        data = {'user_id': user_id, 'trip_id': trip_id, 'status': 'request-exit-trip'};
+
+        $.ajax({
+            url: '/trips/join-trip',
+            type: "post",
+            dataType:"json",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: data,
+            success: function (res) {
+                location.reload();
+            },
+            error: function( req, status, err ) {
+                console.log( 'Error: ' + err );
+                console.log( "Status: " + status );
+                console.log( "Response: " + req );
+            }
+        });
+    }
+
+    
+});
+
+$('.cancel-watting-join-trip').click(function(){
+
+    //console.log('clicked to cancel-watting-join-trip');
 
     console.log('User_id: ' + user_id);
     console.log('Trip_id: ' + trip_id);
 
-    data = {'user_id': user_id, 'trip_id': trip_id, 'status': 'request-exit-trip'};
+    data = {'user_id': user_id, 'trip_id': trip_id, 'status': 'request-cancel-watting-join-trip'};
+    if(confirm("Are you sure?")){
+        $.ajax({
+            url: '/trips/join-trip',
+            type: "post",
+            dataType:"json",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: data,
+            success: function (res) {
+                location.reload();
+            },
+            error: function( req, status, err ) {
+                console.log( 'Error: ' + err );
+                console.log( "Status: " + status );
+                console.log( "Response: " + req );
+            }
+        });
+    }
+});
+
+$('.btn-accept').click(function() {
+    console.log('clicked btn accepted');
+    var selectParent = $(this).parentsUntil('#menu1');
+    var user_id = selectParent.find('.img').data('user');
+    var url_request = window.location.origin + '/trips/cancel-or-accept-user-join-trip';
+
+    data = {'user_id': user_id, 'trip_id': trip_id, 'status': 'request-accept-user-join-trip'};
+
+    console.log(trip_id, user_id, url_request);
 
     $.ajax({
-        url: '/trips/join-trip',
+        url: url_request,
         type: "post",
         dataType:"json",
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        data: data,
+        data:data,
         success: function (res) {
             location.reload();
         },
@@ -127,31 +189,39 @@ $('.exit-trip').click(function(){
     });
 });
 
-$('.cancel-watting-join-trip').click(function(){
 
-    console.log('clicked to cancel-watting-join-trip');
+$('.btn-cancel').click(function(){
+    console.log('clicked btn cancel');
+    var selectParent = $(this).parentsUntil('#menu1');
+    var user_id = selectParent.find('.img').data('user');
+    var url_request = window.location.origin + '/trips/cancel-or-accept-user-join-trip';
 
-    console.log('User_id: ' + user_id);
-    console.log('Trip_id: ' + trip_id);
+    data = {'user_id': user_id, 'trip_id': trip_id, 'status': 'request-cancel-user-join-trip'};
 
-    data = {'user_id': user_id, 'trip_id': trip_id, 'status': 'request-cancel-watting-join-trip'};
+    console.log(trip_id, user_id, url_request);
 
-    $.ajax({
-        url: '/trips/join-trip',
-        type: "post",
-        dataType:"json",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        data: data,
-        success: function (res) {
-            location.reload();
-        },
-        error: function( req, status, err ) {
-            console.log( 'Error: ' + err );
-            console.log( "Status: " + status );
-            console.log( "Response: " + req );
-        }
-    });
+    if(confirm("Are you sure?")){
+        $.ajax({
+            url: url_request,
+            type: "post",
+            dataType:"json",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data:data,
+            success: function (res) {
+                location.reload();
+            },
+            error: function( req, status, err ) {
+                console.log( 'Error: ' + err );
+                console.log( "Status: " + status );
+                console.log( "Response: " + req );
+            }
+        });
+    }
+        
+    
+
+    
 });
 

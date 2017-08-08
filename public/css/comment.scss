@@ -1,0 +1,68 @@
+.avatar-owner{
+	float:left;
+	padding-right: 15px;
+}
+
+
+.area-comment{
+	border: 1px solid #D0D1D5;
+    padding: 5px;
+    background:#fff;
+	.action{
+		.link-show-comment{
+
+		}
+	}
+	.detail-comment{
+		padding:0 5px 5px 5px;
+		display:none;
+		.comment_area{
+			.content-cmt{
+				margin:8px 0;
+				.input-group{
+					margin-bottom: 0px;
+					.action{
+						.link-show-form-sub-comment{
+							margin:0 7px;
+						}
+					}
+					.username-cmt{
+						color:#365899;
+						margin-right:5px;
+						font-weight: bold;
+						&:hover{
+							text-decoration:underline;
+						}
+					}
+				}
+				.content-sub-comment{
+					//border:1px solid;
+					margin-left:50px;
+					.sub-comment{
+						
+					}	
+				}	
+				
+				
+				.form-comment-reply{
+					margin-left: 50px;
+    				margin-bottom:10px;
+				}
+			}
+
+			.form-comment{
+				padding:5px 0;
+				.input-group{
+					margin-bottom:0px;
+				}
+			}
+		}
+		.form-comment{
+			display:inline-flex;
+			.input-group{
+				margin-bottom: 0px;
+				width: 90%;
+			}
+		}
+	}
+}
