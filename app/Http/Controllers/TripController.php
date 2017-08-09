@@ -391,24 +391,26 @@ class TripController extends Controller
 
         $parents_cmt_id = $this->getParentComment($trip_id); // Collection
 
-        $comments = Comment::with('user','trip')->get();
+        if($parents_cmt_id->count() > 0) {
+
+            $comments = Comment::with('user','trip')->get();
 
          // get parent comment 
-        foreach ($parents_cmt_id as $i => $parents) {
+            foreach ($parents_cmt_id as $i => $parents) {
 
-            $parent_comments[$i] = $parents->id;
+                $parent_comments[$i] = $parents->id;
 
+            }
+
+            // get sub comment of parent comment
+            foreach ($parent_comments as $i => $parent) {
+
+                $sub_comments[$parent] =  Comment::with('user','trip')->where('parent_cmt_id' , $parent)->get();
+
+            }
+
+            return $sub_comments;
         }
-
-        // get sub comment of parent comment
-
-        foreach ($parent_comments as $i => $parent) {
-
-            $sub_comments[$parent] =  Comment::with('user','trip')->where('parent_cmt_id' , $parent)->get();
-
-        }
-
-        return $sub_comments;
 
     }
 

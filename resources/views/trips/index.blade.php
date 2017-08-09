@@ -19,25 +19,40 @@
 @section('content')
 
 
-@if(Auth::user()) 
+{{-- @if(Auth::user()) 
     @php
         $user = Auth::user();
         $user_id = $user->id;
         $avatar = $user->avatar;
+
         //dd($avatar);
     @endphp
+        <input type="hidden" name="avatar" id="avatar" value="{{$user->avatar}}">
+        <input type="hidden" name="username" id="username" value="{{$user->name}}">
 @else
     @php
     @endphp
+@endif --}}
+
+@if(Auth::user()) 
+    @php
+        $user       = Auth::user();
+        $user_id    = $user->id;
+        $avatar     = $user->avatar;
+    @endphp
+    <input type="hidden" name="user_id"  id="user_id"  value="{{$user->id}}">
+    <input type="hidden" name="avatar"   id="avatar"   value="{{$user->avatar}}">
+    <input type="hidden" name="username" id="username" value="{{$user->name}}">
+@else
+    @php
+        $avatar = 'images/avatar/default-avatar.png';
+    @endphp
 @endif
-
-{{-- {{dd($parent_comments)}} --}}
-
-{{-- {{dd($trip->id)}} --}}
 
 <div class="container">
     
     <input type="hidden" name="trip_id" id="trip_id" value="{{$trip->id}}">
+
 
     <div class="row">
     
@@ -152,6 +167,7 @@
 
                 {{-- row comment for trip --}}
                 <div class="row">
+
                     <div class="area-comment">
 
                         <div class="action" style="margin-bottom: 15px">
@@ -159,10 +175,12 @@
                         </div>
 
                         <div class="detail-comment">
+
                             <tag class='comment_area' data-trip = {{$trip->id}}>
                                 
                                 @foreach($parent_comments as $parent_comment)
-                                    <div class="content-cmt">
+                                
+                                    <div class="content-cmt" id="{{$parent_comment->id}}">
 
                                         <div class="avatar-owner">
                                             <img src="{{asset($parent_comment->user->avatar)}}" height="34px">
@@ -171,7 +189,7 @@
                                         {{-- Don't delete this line. It make us find comment_id to reply --}}
                                         <input type="hidden" name="comment_id" value="{{$parent_comment->id}}">
 
-                                        <div class="input-group form_{{$parent_comment->id}}" id="{{$parent_comment->id}}">
+                                        <div class="input-group" data-parent-id="{{$parent_comment->id}}">
 
                                             <span class="username-cmt">{{$parent_comment->user->name}}</span>
 
@@ -188,27 +206,45 @@
 
                                         <tag class='sub_comment_area_{{$parent_comment->id}}'>
                                             @foreach($sub_comments[$parent_comment->id] as $sub_comment)
-                                                <div class="content-sub-comment sub_comment_id_{{$sub_comment->id}}">
+                                                <div class="content-sub-comment" data-id-sub-comment = {{$sub_comment->id}}>
                                                     <div class="avatar-owner">
-                                                        <img src="{{asset($sub_comment->user->avatar)}}" height="34px">
+                                                        <img src="{{asset($sub_comment->user->avatar)}}" width="24px">
                                                     </div>
 
-                                                    <div class="input-group sub-comment form_{{$parent_comment->id}}">
+                                                    <div class="input-group" data-parent-id="{{$parent_comment->id}}">
                                                         <span class="username-cmt">{{$sub_comment->user->name}}</span>
                                                         <span>{{$sub_comment->content}}</span>
                                                         <div class="action action-reply">
                                                             <a href="javascript:;" class="link-like">Like</a>
                                                             <a href="javascript:;" class="link-show-form-sub-comment">Reply</a>
                                                             @if(isset($user) && $user->id == $sub_comment->user_id)
-                                                                <a href="javascript:;" class="link_delete_sub_comment sub_comment_id_{{$sub_comment->id}}">Delete</a>
+                                                                <a href="javascript:;" class="link_delete_sub_comment sub_comment_id_{{$sub_comment->id}}" >Delete</a>
                                                             @endif
                                                         </div>
                                                     </div>
                                                 </div>
                                             @endforeach
                                         </tag>
+
+                                         {{-- form input sub comment --}}
+                                        <form class="form-comment-reply">
+                                            <div class="avatar-owner">
+                                                <img src="{{asset($avatar)}}" width="24px">
+                                            </div>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control text_sub_comment" placeholder="Comment here" name="content">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button">
+                                                        <i class="fa fa-picture-o" aria-hidden="true"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </form>
                                         
                                     </div>
+                                
+                                   
+
                                 @endforeach
                                 
                             </tag>

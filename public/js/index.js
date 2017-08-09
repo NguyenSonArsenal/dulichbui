@@ -214,12 +214,6 @@ $(".text_sub_comment").on("keydown",function search(e) {
         var trip_id = $(this).parent().parent().attr('id');
         var trip_id = xuliId(trip_id);
         
-        
-        // console.log('user_id: '+user_id);
-        // console.log('trip_id: '+trip_id);
-        // console.log('parent_cmt_id: '+parent_cmt_id);
-        // console.log('content: '+content);
-
         $.ajax({
             type:"post",
             url:'/comment',

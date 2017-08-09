@@ -36,18 +36,18 @@
 					}
 				}
 				.content-sub-comment{
-					//border:1px solid;
-					margin-left:50px;
+					padding: 5px 50px;
+					//margin-left:50px;
 					.sub-comment{
 						
 					}	
 				}	
-				
-				
-				.form-comment-reply{
-					margin-left: 50px;
-    				margin-bottom:10px;
-				}
+			}
+
+			.form-comment-reply{
+				display:none;
+				margin-left: 50px;
+				margin-bottom:10px;
 			}
 
 			.form-comment{

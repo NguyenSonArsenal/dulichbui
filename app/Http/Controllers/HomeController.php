@@ -32,30 +32,39 @@ class HomeController extends Controller
 
         $comments = Comment::with('user','trip')->get();
 
-        // get parent comment 
-        foreach ($comments as $i => $comment) {
+        //dd($comments->count());
 
-            if($comment->parent_cmt_id == 0) {
+        if($comments->count() > 0) {
+            // get parent comment 
+            foreach ($comments as $i => $comment) {
 
-                $parent_comments[$i] = $comment->id;
+                //dd($comment);
+
+                if($comment->parent_cmt_id == 0) {
+
+                    $parent_comments[$i] = $comment->id;
+
+                }
+            }
+
+            dd($parent_comments);
+
+            // get sub comment of parent comment
+
+            foreach ($parent_comments as $i => $parent) {
+
+                $sub_comments[$parent] =  Comment::with('user','trip')->where('parent_cmt_id' , $parent)->get();
 
             }
+
+            //end get sub comment
+
+            $parent_comments = Comment::with('user','trip')->where('parent_cmt_id',0)->get();
+
+            return view('index', compact('listTrip','comments', 'parent_comments','sub_comments'));
         }
 
-        // get sub comment of parent comment
-
-        foreach ($parent_comments as $i => $parent) {
-
-            $sub_comments[$parent] =  Comment::with('user','trip')->where('parent_cmt_id' , $parent)->get();
-
-        }
-
-        //end get sub comment
-
-        $parent_comments = Comment::with('user','trip')->where('parent_cmt_id',0)->get();
-
-        return view('index', compact('listTrip','comments', 'parent_comments','sub_comments'));
-
+        return view('index', compact('listTrip'));
     }
 
 }

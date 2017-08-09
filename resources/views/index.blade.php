@@ -11,9 +11,9 @@
 
         @if(Auth::user()) 
             @php
-                $user = Auth::user();
-                $ủe_id = $user->id;
-                $avatar = $user->avatar;
+                $user       = Auth::user();
+                $user_id    = $user->id;
+                $avatar     = $user->avatar;
             @endphp
             <input type="hidden" name="user_id" id="user_id" value="{{$user->id}}">
             <input type="hidden" name="avatar" id="avatar" value="{{$user->avatar}}">
@@ -23,6 +23,7 @@
                 $avatar = 'images/avatar/default-avatar.png';
             @endphp
         @endif
+
     @if(isset($user_id))
         <div class="row">
             <div class="col-md-offset-2">
@@ -121,12 +122,7 @@
                                                     </div>
                                                 @endforeach  
 
-                                            </tag>
-
-                                        @endif
-
-                                        
-                                        {{-- form input sub comment --}}
+                                                {{-- form input sub comment --}}
                                         <form class="form-comment-reply form-comment-reply-{{$comment->id}} comment_reply_{{$comment->id}}" id="id_form_comment_reply_{{$trip->id}}" >
                                             <div class="avatar-owner">
                                                 <img src="{{$avatar}}" height="34px">
@@ -140,6 +136,13 @@
                                                 </span>
                                             </div>
                                         </form>
+
+                                            </tag>
+
+                                        @endif
+
+                                        
+                                        
 
                                     </div>
                                 @endforeach
