@@ -122,7 +122,13 @@
                                                     </div>
                                                 @endforeach  
 
-                                                {{-- form input sub comment --}}
+                                                
+
+                                            </tag>
+
+                                        @endif
+
+                                        {{-- form input sub comment --}}
                                         <form class="form-comment-reply form-comment-reply-{{$comment->id}} comment_reply_{{$comment->id}}" id="id_form_comment_reply_{{$trip->id}}" >
                                             <div class="avatar-owner">
                                                 <img src="{{$avatar}}" height="34px">
@@ -136,12 +142,6 @@
                                                 </span>
                                             </div>
                                         </form>
-
-                                            </tag>
-
-                                        @endif
-
-                                        
                                         
 
                                     </div>

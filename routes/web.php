@@ -52,6 +52,7 @@ Route::group(["prefix"=>"comment"], function () {
    	//Route::get('/', 'CommentController@getComment');
 
    	Route::post('/delete/{id}', 'CommentController@postToDeleteComment')->name('postToDeleteComment');
+   	//Route::post('/delete/{sub_id}', 'CommentController@postToDeleteSubComment')->name('postToDeleteSubComment');
 
 });
 

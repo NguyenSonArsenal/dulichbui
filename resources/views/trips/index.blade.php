@@ -206,7 +206,7 @@
 
                                         <tag class='sub_comment_area_{{$parent_comment->id}}'>
                                             @foreach($sub_comments[$parent_comment->id] as $sub_comment)
-                                                <div class="content-sub-comment" data-id-sub-comment = {{$sub_comment->id}}>
+                                                <div class="content-sub-comment">
                                                     <div class="avatar-owner">
                                                         <img src="{{asset($sub_comment->user->avatar)}}" width="24px">
                                                     </div>
@@ -218,7 +218,7 @@
                                                             <a href="javascript:;" class="link-like">Like</a>
                                                             <a href="javascript:;" class="link-show-form-sub-comment">Reply</a>
                                                             @if(isset($user) && $user->id == $sub_comment->user_id)
-                                                                <a href="javascript:;" class="link_delete_sub_comment sub_comment_id_{{$sub_comment->id}}" >Delete</a>
+                                                                <a href="javascript:;" class="link_delete_sub_comment" data-sub-comment-id = {{$sub_comment->id}} >Delete</a>
                                                             @endif
                                                         </div>
                                                     </div>

@@ -47,10 +47,7 @@ class HomeController extends Controller
                 }
             }
 
-            dd($parent_comments);
-
             // get sub comment of parent comment
-
             foreach ($parent_comments as $i => $parent) {
 
                 $sub_comments[$parent] =  Comment::with('user','trip')->where('parent_cmt_id' , $parent)->get();
@@ -58,7 +55,6 @@ class HomeController extends Controller
             }
 
             //end get sub comment
-
             $parent_comments = Comment::with('user','trip')->where('parent_cmt_id',0)->get();
 
             return view('index', compact('listTrip','comments', 'parent_comments','sub_comments'));

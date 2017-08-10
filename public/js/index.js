@@ -247,11 +247,11 @@ $(".text_sub_comment").on("keydown",function search(e) {
                 $('.sub_comment_area_'+parent_cmt_id).append(html); 
 
                 //xoa even link_delete_sub_comment
-                // $('.link_delete_sub_comment').click(function() {
+                $('.link_delete_sub_comment').click(function() {
 
-                //     deleteComment(this);
+                    deleteComment(this);
 
-                // });
+                });
                 
 
             },

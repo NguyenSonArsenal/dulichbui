@@ -54,7 +54,7 @@ $(".text_comment").on("keydown",function search(e) {
 	                				'<div class="avatar-owner">' +
 	                					'<img src="/'+avatar+'" height="34px">'+
 	                                '</div>'+
-	                                ' <div class="input-group">' +
+	                                '<div class="input-group" data-parent-id="'+comment_id+'">' +
 	                                	'<span class="username-cmt">'+username+'</span>' + 
 	                                    '<span>'+content+'</span>' +
 	                                    '<div class="action action-reply">' +
@@ -63,18 +63,21 @@ $(".text_comment").on("keydown",function search(e) {
 	                                    	'<a href="javascript:;" class="link_delete_comment">Delete</a>'+
 	                                    '</div>' +
 	                                '</div>' +
-                                '</div>' 
+                                '</div>' ;
 
                     $('.comment_area').append(html);
 
-                    //process delete parent comment
+                	//process delete parent comment
 					$('.link_delete_comment').click(function(){
-
-					    //deleteComment(this);
-
+					    deleteParentComment(this);
 					});
 
-		            },
+
+					$('.link-show-form-sub-comment').click(function(){
+					    showFormSubComment(this);
+					});
+
+		        },
 	            error: function( req, status, err ) {
 	                console.log( 'Error: ' + err );
 	                console.log( "Status: " + status );
@@ -95,11 +98,8 @@ $(".text_comment").on("keydown",function search(e) {
 
 function showFormSubComment(element)
 {
-
     var parent_comment_id = $(element).closest('.input-group').attr('data-parent-id');
-    console.log(parent_comment_id);
     $(element).closest('.content-cmt').find('.form-comment-reply').show();
-
 }
 
 
@@ -153,7 +153,7 @@ $(".text_sub_comment").on("keydown",function search(e) {
                 						'<div class="action action-reply">' +
                 							'<a href="javascript:;" class="link-like">Like</a>' +
                                             '<a href="javascript:;" class="link-show-form-sub-comment">Reply</a>' +
-                                            '<a href="javascript:;" class="link_delete_sub_comment sub_comment_id_{{$sub_comment->id}}">Delete</a>' +
+                                            '<a href="javascript:;" class="link_delete_sub_comment" data-sub-comment-id="'+comment_id+'">Delete</a>' +
                 						'</div>' +	
                 					'</div>' +	
                 				'</div>' ;
@@ -162,10 +162,8 @@ $(".text_sub_comment").on("keydown",function search(e) {
                     $('.sub_comment_area_'+parent_cmt_id).append(html); 
 
                     //process delete parent comment
-					$('.link_delete_comment').click(function(){
-
-					    deleteComment(this);
-
+					$('.link_delete_sub_comment').click(function(){
+						deleteSubComment(this);
 					});
 
 	            },
@@ -187,66 +185,23 @@ $(".text_sub_comment").on("keydown",function search(e) {
 });
 
 
-
-function deleteCommentOld(element)
+function deleteParentComment(element) 
 {
+	var comment_id, url_request;
 
-    var sub_comment_class_name = $(element).parent().parent().parent().attr('class');
-    sub_comment_class_name = xiLiClassName(sub_comment_class_name);
+	comment_id = $(element).closest('.content-cmt').attr('id');// id comment you want to delete
 
-    alert(sub_comment_class_name);
+	console.log('Ban muon xoa cmt co id: ' + comment_id);
 
-    comment_id = xuliId(sub_comment_class_name);
-
-    alert(comment_id);
-
-    if (confirm("Are you sure?")) {
-        $('.'+sub_comment_class_name+'').empty();
-    }
-
-    //debugger
-
-    $.ajax({
-        type:"post",
-        url:'/comment/delete/'+comment_id,
-        dataType:"json",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        data: {"comment_id":comment_id},
-
-        success:function(res){
-
-            var status = res.status;
-
-            console.log('deleted comment id '+comment_id);
-
-        },
-        error: function( req, status, err ) {
-            console.log( 'Error: ' + err );
-            console.log( "Status: " + status );
-            console.log( "Response: " + req );
-        }
-    });
-
-}
-
-
-function deleteComment(element) 
-{
-	var comment_id;
-
-	comment_id = $(element).closest('.content-cmt').attr('id');
-
-	console.log(comment_id);
+	url_request = window.location.origin + '/comment/delete/'+comment_id;
 
 	if (confirm("Are you sure?")) {
 
-        $('#'+comment_id+'').empty();
+        $('#'+comment_id+'').remove();
 
         $.ajax({
 	        type:"post",
-	        url:'/comment/delete/'+comment_id,
+	        url:url_request,
 	        dataType:"json",
 	        headers: {
 	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -272,9 +227,7 @@ function deleteComment(element)
 
 //process delete parent comment
 $('.link_delete_comment').click(function(){
-
-    deleteComment(this);
-
+    deleteParentComment(this);
 });
 
 
@@ -282,13 +235,13 @@ function deleteSubComment(element)
 {
 	var sub_comment_id;
 
-	sub_comment_id = $(element).closest('.content-sub-comment').attr('data-id-sub-comment');
+	sub_comment_id = $(element).attr("data-sub-comment-id");
 
-	console.log(sub_comment_id);
+	console.log('Ban muon xoa sub cmt co id: ' + sub_comment_id);
 
 	if (confirm("Are you sure?")) {
 
-        $(element).closest('.content-sub-comment').empty();
+        $(element).closest('.content-sub-comment').remove();
 
         $.ajax({
 	        type:"post",
@@ -303,7 +256,7 @@ function deleteSubComment(element)
 
 	            var status = res.status;
 
-	            console.log('deleted comment id '+comment_id);
+	            console.log('deleted comment id '+sub_comment_id);
 
 	        },
 	        error: function( req, status, err ) {
@@ -317,7 +270,5 @@ function deleteSubComment(element)
 }
 
 $('.link_delete_sub_comment').click(function(){
-
-	deleteSubComment(this);	
-
+	deleteSubComment(this);
 });

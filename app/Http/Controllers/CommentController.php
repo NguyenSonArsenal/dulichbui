@@ -38,10 +38,9 @@ class CommentController extends Controller
  		$cmt->parent_cmt_id = $parent_cmt_id;
  		$cmt->content 		= trim($content);
 
- 		//$cmt->save();
+ 		$cmt->save();
 
- 		//$cmt_id = $cmt->id;
- 		$cmt_id = 300;
+ 		$cmt_id = $cmt->id;
  		
  		return $cmt_id;
 
@@ -50,27 +49,34 @@ class CommentController extends Controller
 
  	function postToDeleteComment()
  	{
- 		$comment_id = isset($_POST['comment_id']) ? $_POST['comment_id'] : ''; // comment_id
+ 		// delete parent comment
  		
+ 		$comment_id = isset($_POST['comment_id']) ? $_POST['comment_id'] : ''; // comment_id
+
  		$sub_comment_id = isset($_POST['sub_comment_id']) ? $_POST['sub_comment_id'] : ''; // sub_comment_id
 
- 		$sub_comments = Comment::where('parent_cmt_id' , $comment_id)->get();
+ 		if($comment_id) {
 
- 		$count_sub_comments = $sub_comments->count();
+ 			$sub_comments = Comment::where('parent_cmt_id' , $comment_id)->get();
 
-  		if($count_sub_comments > 0) {
+ 			$count_sub_comments = $sub_comments->count();
 
-  			foreach ($sub_comments as $key => $sub_comment) {
-	 			Comment::destroy($sub_comment->id);
-	 		}
-  		}
+ 			if($count_sub_comments > 0) {
 
- 		if($comment_id != null){
- 			$status = Comment::destroy($comment_id);
+	  			foreach ($sub_comments as $key => $sub_comment) {
+		 			Comment::destroy($sub_comment->id);
+		 		}
+	  		}
+
+	  		$status = Comment::destroy($comment_id);
+
  		}
 
- 		if($sub_comment_id != null){
+
+ 		if($sub_comment_id) {
+
  			$status = Comment::destroy($sub_comment_id);
+
  		}
 
  		return Response::json(['status' => $status]);
