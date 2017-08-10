@@ -1,3 +1,12 @@
+// $( document ).ready(function() {
+
+
+
+
+
+// });
+
+
 "use strict";
 
 var trip_id = $('#trip_id').val();
@@ -64,6 +73,20 @@ $(".text_comment").on("keydown",function search(e) {
 	                                    '</div>' +
 	                                '</div>' +
                                 '</div>' ;
+
+                                // EOF<<form class="form-comment-reply">' +
+                                //             <div class="avatar-owner">
+                                //                 <img src="{{asset($avatar)}}" width="24px">
+                                //             </div>
+                                //             <div class="input-group">
+                                //                 <input type="text" class="form-control text_sub_comment" placeholder="Comment here" name="content">
+                                //                 <span class="input-group-btn">
+                                //                     <button class="btn btn-default" type="button">
+                                //                         <i class="fa fa-picture-o" aria-hidden="true"></i>
+                                //                     </button>
+                                //                 </span>
+                                //             </div>
+                                //         </form>';
 
                     $('.comment_area').append(html);
 

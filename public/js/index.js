@@ -174,6 +174,72 @@ $(".text_comment").on("keydown",function search(e) {
 
                 });
 
+                $(".text_sub_comment").on("keydown",function search(e) {
+    if(e.keyCode == 13) {
+
+        var content = $(this).val();
+
+        var parent_cmt_id = $(this).parent().parent().attr('class');
+        var parent_cmt_id = xuliId(parent_cmt_id);
+
+        var trip_id = $(this).parent().parent().attr('id');
+        var trip_id = xuliId(trip_id);
+        
+        $.ajax({
+            type:"post",
+            url:'/comment',
+            dataType:"text",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {"user_id":user_id, 'trip_id':trip_id,"parent_cmt_id":parent_cmt_id , "content":content },                
+            
+            success:function(res){
+               
+                sub_comment_id = res;
+
+                console.log('Added sub comment id = ' + sub_comment_id);
+
+                var html = '<div class="content-sub-comment sub_comment_id_'+sub_comment_id+'">' + 
+                        '<div class="avatar-owner">' + 
+                            '<img src="'+avatar+'" height="34px">'+
+                        '</div>'+
+                        '<div class="input-group sub-comment form_{{$comment->id}}">'+
+                            '<span class="username-cmt">'+username+'</span>'+
+                            '<span>'+content+'</span>'+
+                            '<div class="action action-reply">'+
+                                '<a href="javascript:;" class="link-like">Like</a>'+
+                                '<a href="javascript:;" class="link-show-form-sub-comment">Reply</a>'+
+                                '<a href="javascript:;" class="link_delete_sub_comment sub_comment_id_'+sub_comment_id+'">Delete</a>'+
+                            '</div>'+
+                        '</div>'+
+                   '</div>';
+
+                $('.sub_comment_area_'+parent_cmt_id).append(html); 
+
+                //xoa even link_delete_sub_comment
+                $('.link_delete_sub_comment').click(function() {
+
+                    deleteComment(this);
+
+                });
+                
+
+            },
+            error: function( req, status, err ) {
+                console.log( 'Error: ' + err );
+                console.log( "Status: " + status );
+                console.log( "Response: " + req );
+            }
+        });
+        
+        $(this).val('');
+
+        return false;
+    }
+});
+
+
             },
             error: function( req, status, err ) {
                 console.log( 'Error: ' + err );
@@ -203,6 +269,7 @@ $('.link-show-form-sub-comment').click(function(){
 
 //var sub_comment_id;
 
+//$(document).on(".text_sub_comment","keydown",function search(e) {
 $(".text_sub_comment").on("keydown",function search(e) {
     if(e.keyCode == 13) {
 
